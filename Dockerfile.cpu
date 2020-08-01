@@ -16,15 +16,10 @@ RUN python3 -m pip install --upgrade --no-cache-dir -i https://pypi.doubanio.com
     uvicorn \
     fastapi
 
-COPY src /usr/local/face_detect/src
-
+COPY src/deploy/cpu /usr/local/face_detect/src
 
 ADD http://119.3.129.170:30088/models/face_detect/center_face/onnx/centerface.onnx /usr/local/face_detect/model/centerface.onnx
 
 WORKDIR /usr/local/face_detect/src
-
-RUN python -m compileall -b . \
-    && find -name "*.py" | xargs rm -f \
-    && find -name "__pycache__" | xargs rm -rf
 
 CMD uvicorn api:app --host 0.0.0.0 --port 8018
