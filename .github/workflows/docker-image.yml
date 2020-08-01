@@ -8,6 +8,7 @@ on:
 
 env:
   IMAGE_NAME: face_detect
+  IMAGE_TYPE: cpu
 
 jobs:
   build:
