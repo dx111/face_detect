@@ -17,7 +17,7 @@ class CenterFace(object):
         return self.inference_opencv(img, threshold)
 
     def inference_opencv(self, img, threshold):
-        blob = cv2.dnn.blobFromImage(img, scalefactor=1.0, size=(self.img_w_new, self.img_h_new), mean=(0, 0, 0), swapRB=True, crop=False)
+        blob = cv2.dnn.blobFromImage(img, scalefactor=1.0, size=(self.img_w_new, self.img_h_new), mean=(0, 0, 0), swapRB=False, crop=False)
         self.net.setInput(blob)
         # begin = datetime.datetime.now()
         if self.landmarks:
