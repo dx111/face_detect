@@ -20,7 +20,6 @@ COPY src /usr/local/face_detect/src
 
 
 ADD http://119.3.129.170:30088/models/face_detect/center_face/onnx/centerface.onnx /usr/local/face_detect/model/centerface.onnx
-ADD http://119.3.129.170:30088/models/face_detect/center_face/onnx/centerface_bnmerged.onnx /usr/local/face_detect/model/centerface_bnmerged.onnx
 
 WORKDIR /usr/local/face_detect/src
 
