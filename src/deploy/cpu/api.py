@@ -10,6 +10,7 @@ from starlette.exceptions import HTTPException
 from starlette.requests import Request
 from fastapi.responses import JSONResponse
 import exceptions
+import datetime
 
 description = """
 人脸检测的接口
@@ -50,7 +51,7 @@ class face_detect_response(BaseModel):
 
 # inference=get_detect_inference()
 
-centerface = CenterFace(landmarks=True)
+
 
 
 @app.post("/face_detect",
@@ -63,7 +64,11 @@ def face_detect(req: request):
         raise exceptions.DecodeError("decode imageBase64 error")
     nparr = np.fromstring(imgData, np.uint8)
     frame = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
-    h, w = frame.shape[:2]
+    if frame is None:
+        pass
+    h,w=frame.shape[:2]
+
+    centerface = CenterFace(landmarks=True)
     dets, lms = centerface(frame, h, w, threshold=0.35)
     # dets, lms=inference(frame)
     face_detect_list = []
