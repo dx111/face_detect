@@ -38,17 +38,20 @@ class face_detect_response(BaseModel):
     face_count:float=Field(...,example=1)
     face_info: List[face_detect_struct]
 
-def get_detect_inference():
-    landmarks = True
-    centerface = CenterFace(landmarks=landmarks)
-    def inference(frame):
-        h, w = frame.shape[:2]
-        dets, lms = centerface(frame, h, w, threshold=0.35)
-        return dets,lms
+# def get_detect_inference():
+#     landmarks = True
+#     centerface = CenterFace(landmarks=landmarks)
+#     def inference(frame):
+#         h, w = frame.shape[:2]
+#         dets, lms = centerface(frame, h, w, threshold=0.35)
+#         return dets,lms
     
-    return inference
+#     return inference
 
-inference=get_detect_inference()
+# inference=get_detect_inference()
+
+centerface = CenterFace(landmarks=True)
+
 
 @app.post("/face_detect",
           summary="人脸检测",
@@ -60,7 +63,9 @@ def face_detect(req: request):
         raise exceptions.DecodeError("decode imageBase64 error")
     nparr = np.fromstring(imgData, np.uint8)
     frame = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
-    dets, lms=inference(frame)
+    h, w = frame.shape[:2]
+    dets, lms = centerface(frame, h, w, threshold=0.35)
+    # dets, lms=inference(frame)
     face_detect_list = []
     for det, lm in zip(dets, lms):
         boxes, score = det[:4], det[4]
